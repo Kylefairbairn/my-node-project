@@ -13,6 +13,7 @@ export default class TuitDao implements TuitDaoI {
 
         const allTuits = await TuitModel.find().populate('postedBy').exec();
 
+
         const ewq = allTuits.map(tuitObj =>
         {
             const u: any = JSON.parse(JSON.stringify(tuitObj.postedBy));
@@ -64,6 +65,7 @@ export default class TuitDao implements TuitDaoI {
 
     async createTuit(tuit: Tuit): Promise<Tuit> {
         const newTuit = await TuitModel.create(tuit);
+
         return new Tuit(
                         newTuit.tuit,
                         newTuit.postedOn,
@@ -75,7 +77,7 @@ export default class TuitDao implements TuitDaoI {
                 {_id: tid},
                 {$set: tuit})
 
-            return updateTuit.upsertedCount;
+            return TuitModel.updateOne({_id: tid}, {$set: tuit});
 
     }
     async deleteTuit(tid: string): Promise<any>{
