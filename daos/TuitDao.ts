@@ -10,36 +10,8 @@ export default class TuitDao implements TuitDaoI {
 
 
     async findAllTuits(): Promise<Tuit[]> {
-        // find all tuits
-        //const allTuits = await TuitModel.find();
-        // find all users by id
+
         const allTuits = await TuitModel.find().populate('postedBy').exec();
-        // create an individual user
-        //const users = await UserModel.findById(author);
-
-
-        // const persons = new User(
-        //     users?.userName??'',
-        //     users?.password??'',
-        //     users?.firstName??'',
-        //     users?.lastName??'',
-        //     users?.email??'');
-
-
-        // const user = new User(
-        //     allTuits.postedBy.userName,
-        //     allUsers.postedBy.password,
-        //     allUsers.postedBy.firstName,
-        //     allUsers.postedBy.lastName,
-        //     allUsers.postedBy.email
-        // );
-
-        // let person: User =  new User(
-        //     users?.userName??'',
-        //     users?.password??'',
-        //     users?.firstName??'',
-        //     users?.lastName??'',
-        //     users?.email??'');
 
         const ewq = allTuits.map(tuitObj =>
         {
@@ -60,9 +32,7 @@ export default class TuitDao implements TuitDaoI {
         return ewq;
     }
     async findTuitsByUser(uid: string): Promise<Tuit[]> {
-        // find the user
-        // create the user
-        // find all tuits by the user
+
         const UserObj = await UserModel.findById(uid); // find a user
         let user: User = new User(
                         UserObj?.userName??'',
@@ -89,13 +59,11 @@ export default class TuitDao implements TuitDaoI {
         } catch (e) {
             return "No such tuit exists";
         }
-        //return await TuitModel.findById(tid);
     }
-        //return await TuitModel.create(tid);
+
 
     async createTuit(tuit: Tuit): Promise<Tuit> {
         const newTuit = await TuitModel.create(tuit);
-        // user would probably have to be a new user so instantiate it
         return new Tuit(
                         newTuit.tuit,
                         newTuit.postedOn,
