@@ -1,21 +1,11 @@
 import mongoose from "mongoose";
-import Like from "../models/Like";
-import Replies from "../models/Replies";
-import BookMark from "../models/BookMark";
-import tuitToTag from "../models/tuitToTag";
-import tuitToTopic from "../models/tuitToTopic";
+import Tuit from "./TuitModel";
+import User from "../models/User";
 
-const tuitSchema = new mongoose.Schema({
-    tuit : String,
-    id : String,
-    numOfLikes : Number,
-    numOfReplies : Number,
-    likes : [Like],
-    replies : [Replies],
-    image : String,
-    bookmark : BookMark,
-    topic : tuitToTag,
-    tag : tuitToTopic,
-}, {collection : "tuits"});
+const TuitSchema = new mongoose.Schema({
+    tuit: {type: String, required: true},
+    postedOn:{ type: Date, default: Date.now},
+    postedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'}
+}, {collection: "tuits"});
 
-export default tuitSchema;
+export default TuitSchema;
