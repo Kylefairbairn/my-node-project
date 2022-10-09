@@ -14,15 +14,15 @@ export default class TuitDao implements TuitDaoI {
         const allTuits = await TuitModel.find().populate('postedBy').exec();
 
 
-        const ewq = allTuits.map(tuitObj =>
+        const UsersByID = allTuits.map(tuitObj =>
         {
-            const u: any = JSON.parse(JSON.stringify(tuitObj.postedBy));
+            const currentUser: any = JSON.parse(JSON.stringify(tuitObj.postedBy));
             const user = new User(
-                u.userName,
-                u.password,
-                u.firstName,
-                u.lastName,
-                u.email
+                currentUser.userName,
+                currentUser.password,
+                currentUser.firstName,
+                currentUser.lastName,
+                currentUser.email
             );
 
             return new Tuit(
@@ -30,11 +30,11 @@ export default class TuitDao implements TuitDaoI {
                 tuitObj.postedOn,
                 user)
         })
-        return ewq;
+        return UsersByID;
     }
     async findTuitsByUser(uid: string): Promise<Tuit[]> {
 
-        const UserObj = await UserModel.findById(uid); // find a user
+        const UserObj = await UserModel.findById(uid);
         let user: User = new User(
                         UserObj?.userName??'',
                         UserObj?.password??'',
@@ -73,9 +73,9 @@ export default class TuitDao implements TuitDaoI {
         );
     }
     async updateTuit(tid: string, tuit: Tuit): Promise<any>{
-        const updateTuit = await TuitModel.updateOne(
-                {_id: tid},
-                {$set: tuit})
+        // const updateTuit = await TuitModel.updateOne(
+        //         {_id: tid},
+        //         {$set: tuit})
 
             return TuitModel.updateOne({_id: tid}, {$set: tuit});
 

@@ -7,7 +7,6 @@ export default class Tuit {
    private _postedOn: Date = new Date();
    private _postedBy: User | null;
 
-   // new Date().toString();
 
    constructor(tuit: string, postedOn: Date, postedBy: User | null) {
       this._tuit = tuit;
@@ -15,7 +14,7 @@ export default class Tuit {
       this._postedBy = postedBy || null;
    }
 
-   public get tuit(): string {
+   public get getTuit(): string {
       return this.tuit;
    }
 

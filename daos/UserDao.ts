@@ -34,7 +34,6 @@ export default class UserDao implements UserDaoI {
             newUser?.lastName??'',
             newUser?.email??'');
 
-        //return UserModel.create(user);
     }
     async deleteUser(uid: string):  Promise<any> {
         const result = await UserModel.deleteOne({_id:uid});
