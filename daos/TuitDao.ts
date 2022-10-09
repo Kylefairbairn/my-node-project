@@ -11,10 +11,10 @@ export default class TuitDao implements TuitDaoI {
 
     async findAllTuits(): Promise<Tuit[]> {
 
-        const allTuits = await TuitModel.find().populate('postedBy').exec();
+        const findTuitByUser = await TuitModel.find().populate('postedBy').exec();
 
 
-        const UsersByID = allTuits.map(tuitObj =>
+        const allTuits = findTuitByUser.map(tuitObj =>
         {
             const currentUser: any = JSON.parse(JSON.stringify(tuitObj.postedBy));
             const user = new User(
@@ -30,7 +30,7 @@ export default class TuitDao implements TuitDaoI {
                 tuitObj.postedOn,
                 user)
         })
-        return UsersByID;
+        return allTuits;
     }
     async findTuitsByUser(uid: string): Promise<Tuit[]> {
 
