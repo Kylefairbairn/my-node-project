@@ -27,8 +27,9 @@ app.get('/hello', (req: Request, res: Response) =>
 const userDao = new UserDao();
 const userController = new UserController(app, userDao);
 
-const tuitDao = new TuitDao();
-const tuitController = new TuitController(app, tuitDao);
+const tuitDao = TuitDao.getInstance();
+const tuitController = TuitController
+    .getInstance(app, tuitDao);
 
 
 /**

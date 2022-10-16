@@ -1,41 +1,59 @@
-import TuitControllerI from "../interfaces/TuitControllerI";
 import {Express, Request, Response} from "express";
-import TuitDao from "../daos/TuitDao";
+import TuitDaoI from "../interfaces/TuitDaoI";
 
-export default class TuitController implements TuitControllerI {
 
-    app: Express;
-    tuitDao: TuitDao;
-    constructor(app: Express, tuitDao: TuitDao) {
-        this.app = app;
-        this.tuitDao = tuitDao;
-        this.app.get('/tuits', this.findAllTuits);
-        this.app.get('/tuits/:tid', this.findTuitById);
-        this.app.get('/users/:uid/tuits', this.findTuitsByUser)
-        this.app.post('/tuits', this.createTuit);
-        this.app.delete('/tuits/:tid', this.deleteTuit);
-        this.app.put('/tuits/:tid', this.updateTuit);
+export default class TuitController {
+    private static tuitController: TuitController | null = null;
+    private static tuitDao: TuitDaoI;
+    public static getInstance = (app: Express, tuitDao: TuitDaoI): TuitController => {
+        if (TuitController.tuitController === null) {
+            TuitController.tuitController = new TuitController();
+        }
+        TuitController.tuitDao = tuitDao;
+        app.get('/api/tuits', TuitController.tuitController.findAllTuits);
+        app.get('/api/tuits/:tid', TuitController.tuitController.findTuitById);
+        app.get('/api/users/:uid/tuits', TuitController.tuitController.findTuitsByAuthor);
+        app.post('/api/users/:uid/tuits', TuitController.tuitController.createTuit);
+        app.delete('/api/tuits/:tid', TuitController.tuitController.deleteTuit);
+        app.put("api/tuits/:tid'", TuitController.tuitController.updateTuit);
+
+        return TuitController.tuitController;
     }
-    findAllTuits= (req: Request, res: Response) =>
-        this.tuitDao.findAllTuits()
+
+    private constructor() {
+    }
+
+    private findAllTuits = (req: Request, res: Response) =>
+        TuitController.tuitDao
+            .findAllTuits()
             .then(tuits => res.json(tuits));
-    findTuitById = (req: Request, res: Response) =>
-        this.tuitDao.findTuitById(req.params.tid)
-            .then(tuits => res.json(tuits));
-    findTuitsByUser = (req: Request, res: Response) =>
-        this.tuitDao.findTuitsByUser(req.params.user)
-            .then(tuits => res.json(tuits));
-    createTuit = (req: Request, res: Response) =>
-        this.tuitDao.createTuit(req.body)
-            .then(tuits => res.json(tuits));
-    deleteTuit = (req: Request, res: Response) =>
-        this.tuitDao.deleteTuit(req.params.tid)
+    private findTuitById = (req: Request, res: Response) =>
+        TuitController.tuitDao
+            .findTuitById(req.params.tid)
+            .then(tuit => res.json(tuit));
+    private findTuitsByAuthor =
+        (req: Request, res: Response) =>
+            TuitController.tuitDao
+                .findTuitsByAuthor(req.params.uid)
+                .then(tuits => res.json(tuits));
+    private createTuit = (req: Request, res: Response) =>
+        TuitController.tuitDao
+            .createTuit({...req.body, postedBy: req.params.uid})
+            .then(actualTuit => res.json(actualTuit));
+
+    private deleteTuit = (req: Request, res: Response) =>
+        TuitController.tuitDao
+            .deleteTuit(req.params.tid)
             .then(status => res.json(status));
-    updateTuit = async (req: Request, res: Response) => {
-        const tid = req.params['tid'];
-        const newTuit = req.body;
-        const count = await this.tuitDao.updateTuit(tid,newTuit);
-        res.json(count);
-    }
 
+    private updateTuit = (req: Request, res: Response) => {
+        // const tid = req.params['tid'];
+        // const newTuit = req.body;
+        // const count = TuitController.tuitDao.updateTuit(tid, newTuit);
+        // res.json(count);
+
+        TuitController.tuitDao
+            .updateTuit(req.params.tid, req.body)
+            .then(status => res.json(status));
+    }
 }
