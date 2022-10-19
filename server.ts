@@ -1,3 +1,4 @@
+
 /**
  * @file Implements an Express Node HTTP server.
  */
@@ -16,6 +17,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// app
+
+//kyleCS5500:<password>@cluster0.0lvcoyg.mongodb.net/?
+// mongodb+srv://kyleCS5500:<password>@cluster0.0lvcoyg.mongodb.net/?
+
+
+// compass
+
+//mongodb+srv://kyleCS5500:<password>@cluster0.0lvcoyg.mongodb.net/test
+
+
+let pw = "northeastern12345";
+
+
+//mongoose.connect("mongodb+srv://kyleCS5500:pw@cluster0.0lvcoyg.mongodb.net/tuiter")
+
 mongoose.connect('mongodb://localhost:27017/tuiter');
 
 app.get('/', (req: Request, res: Response) =>
@@ -27,9 +44,11 @@ app.get('/hello', (req: Request, res: Response) =>
 const userDao = new UserDao();
 const userController = new UserController(app, userDao);
 
-const tuitDao = TuitDao.getInstance();
-const tuitController = TuitController
-    .getInstance(app, tuitDao);
+
+
+const tuitDao = new TuitDao();
+const tuitController = new TuitController(app, tuitDao);
+
 
 
 /**

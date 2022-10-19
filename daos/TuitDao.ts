@@ -2,23 +2,16 @@ import TuitDaoI from "../interfaces/TuitDaoI";
 import Tuit from "../models/Tuit";
 import tuitModel from "../mongoose/TuitModel";
 import User from "../models/User";
+import TuitModel from "../mongoose/TuitModel";
 
 
 export default class TuitDao implements TuitDaoI {
-    private static tuitDao: TuitDao | null = null;
-    public static getInstance = (): TuitDao => {
-        if (TuitDao.tuitDao === null) {
-            TuitDao.tuitDao = new TuitDao();
-        }
-        return TuitDao.tuitDao;
-    }
-    private constructor() {}
+
     public async findTuitById(id: string):
         Promise<Tuit> {
         const tuitMongooseModel: any = await tuitModel
             .findById(id)
             .populate('postedBy').exec();
-        //console.log(tuitMongooseModel.postedBy)
         const author = new User(
             tuitMongooseModel.postedBy?._id??'',
             tuitMongooseModel.postedBy?.username??'',
@@ -67,9 +60,12 @@ export default class TuitDao implements TuitDaoI {
     public async deleteTuit(tuitId: string): Promise<any> {
         return await tuitModel.deleteOne({_id: tuitId});
     }
-    public async updateTuit(tuitId: string, tuit: Tuit): Promise<any> {
+    public async updateTuit(tuitId: string, tuit: any): Promise<any> {
+
         return tuitModel.updateOne(
             {_id: tuitId},
-            {$set: {tuit: tuit.post}})
+            {$set:{
+                     tuit: tuit.post}})
     }
+
 }
