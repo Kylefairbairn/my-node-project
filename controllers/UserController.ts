@@ -35,7 +35,6 @@ export default class UserController implements UserControllerI {
         if(UserController.userController === null) {
             UserController.userController = new UserController();
 
-            // RESTful User Web service API
             app.get("/api/users",
                 UserController.userController.findAllUsers);
             app.get("/api/users/:uid",
@@ -124,10 +123,14 @@ export default class UserController implements UserControllerI {
         UserController.userDao.deleteAllUsers()
             .then((status) => res.send(status));
 
-    deleteUsersByUsername = (req: Request, res: Response) =>
-        UserController.userDao.deleteUsersByUsername(req.params.username)
-            .then(status => res.send(status));
 
+    /**
+     * Allows a  user to login
+     * @param {Request} req Represents request from client, including the body
+     * JSON for the users username and users password
+     * @param {Response} res Represents response to client, including a user formatted
+     * in JSON
+     */
     login = (req: Request, res: Response) =>
         UserController.userDao
             .findUserByCredentials(req.body.username, req.body.password)
@@ -135,9 +138,5 @@ export default class UserController implements UserControllerI {
                 res.json(user)
             });
 
-    register = (req: Request, res: Response) =>
-        UserController.userDao.findUserByUsername(req.body.username)
-            .then(user => {
 
-            })
 };

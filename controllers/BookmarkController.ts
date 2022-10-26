@@ -8,19 +8,19 @@ import Bookmark from "../models/Bookmark";
 import BookmarkControllerI from "../interfaces/BookmarkControllerI";
 
 /**
- * @class TuitController Implements RESTful Web service API for likes resource.
+ * @class BookmarkController Implements RESTful Web service API for Bookmark resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>POST /api/users/:uid/bookmarks/:tid to retrieve information about the tuit and user
+ *     <li>POST /api/users/:uid/bookmarks/:tid to create a new bookmark instance
  *     </li>
  *     <li>GET /api/bookmarks to retrieve all bookmarks
  *     </li>
- *     <li>DELETE /api/unbookmarks/:bid to retrieve bookmark to delete
+ *     <li>DELETE /api/unbookmarks/:bid to retrieve a bookmark to delete
  *     </li>
  *     <li>GET /api/users/:uid/bookmarks to retrieve another users bookmarks
- *     no londer likes a tuit</li>
+ *     </li>
  * </ul>
- * @property {BookmarkDao} bookmarkDao Singleton DAO implementing likes CRUD operations
+ * @property {BookmarkDao} bookmarkDao Singleton DAO implementing bookmark CRUD operations
  * @property {BookmarkController} BookmarkController Singleton controller implementing
  * RESTful Web service API
  */
@@ -50,11 +50,12 @@ export default class BookmarkController implements BookmarkControllerI {
 
 
         /**
-         * Retrieves information pertaining to a user and a tuit
+         * Creates a new bookmark instance
          * @param {Request} req Represents request from client, including the path
          * parameter tid representing the tuit and uid representing the user
          * @param {Response} res Represents response to client, including the
-         * body formatted as JSON arrays containing the Bookmark objects
+         * users and tuits FK as JSON containing the new bookmark that was inserted in the
+         * database
          */
         createABookmark = (req: Request, res: Response) =>
         BookmarkController.bookmarkDao.createABookmark(req.params.uid, req.params.tid)
@@ -84,7 +85,7 @@ export default class BookmarkController implements BookmarkControllerI {
         /**
          * Retrieves bookmarks from other user
          * @param {Request} req Represents request from client, including the path
-         * parameter uid representing the bookmarks from another user
+         * parameter uid representing the user to find their bookmarks
          * @param {Response} res Represents response to client, including the
          * body formatted as JSON arrays containing the bookmarks objects
          */

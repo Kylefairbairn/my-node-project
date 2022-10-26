@@ -1,5 +1,5 @@
 /**
- * @file Implements DAO managing data storage of users. Uses mongoose UserModel
+ * @file Implements DAO managing data storage of likes. Uses mongoose LikeModel
  * to integrate with MongoDB
  */
 
@@ -10,7 +10,7 @@ import Like from "../models/Likes";
 /**
  * @class LikeDao Implements Data Access Object managing data storage
  * of likes
- * @property {LikeDao} likeDao Private single instance of UserDao
+ * @property {LikeDao} likeDao Private single instance of LikeDao
  */
 
 export default class LikeDao implements LikeDaoI {
@@ -58,10 +58,10 @@ export default class LikeDao implements LikeDaoI {
     userLikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.create({tuit: tid, likedBy: uid});
     /**
-     * Removes user from the database.
+     * Removes Like from the database.
      * @param {string} uid Primary key of user to be removed
      * @param {string} tid Primary key of tuit to be removed
-     * @returns Promise To be notified when bookmark is removed from the database
+     * @returns Promise To be notified when like is removed from the database
      */
     userUnlikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.deleteOne({tuit: tid, likedBy: uid});

@@ -2,6 +2,6 @@ import User from "./User";
 
 export default interface Message{
     userSending: User,
-    userRecieving: User,
+    userReceiving: User,
     message: string
 }

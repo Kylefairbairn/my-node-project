@@ -1,5 +1,5 @@
 /**
- * @file Implements DAO managing data storage of users. Uses mongoose UserModel
+ * @file Implements DAO managing data storage of bookmarks. Uses mongoose BookmarkModel
  * to integrate with MongoDB
  */
 
@@ -7,6 +7,7 @@
 import BookmarkModel from "../mongoose/BookmarkModel";
 import bookmarkModel from "../mongoose/BookmarkModel";
 import BookmarkDaoI from "../interfaces/BookmarkDaoI";
+import Bookmark from "../models/Bookmark";
 
 /**
  * @class BookmarkDao Implements Data Access Object managing data storage
@@ -37,7 +38,7 @@ export default class BookmarkDao implements BookmarkDaoI{
      * @param {string} tid Tuit's primary key
      * @returns Promise To be notified when bookmark is inserted into the database
      */
-    createABookmark = async (tid: string, uid: string): Promise<any> =>
+    createABookmark = async (tid: string, uid: string): Promise<Bookmark> =>
         BookmarkModel.create({tuit:tid,author:uid})
 
     /**
@@ -54,7 +55,7 @@ export default class BookmarkDao implements BookmarkDaoI{
      * @returns Promise To be notified when the bookmarks are retrieved from
      * database
      */
-    findAllBookmarks = async (): Promise<any> =>
+    findAllBookmarks = async (): Promise<Bookmark[]> =>
         BookmarkModel.find().populate("author").exec()
 
     /**
@@ -63,87 +64,8 @@ export default class BookmarkDao implements BookmarkDaoI{
      * @param {string} uid User's primary key
      * @returns Promise To be notified when the bookmarks are retrieved from the database
      */
-    findBookmarksFromAnotherUser = async (uid: string): Promise<any> =>
+    findBookmarksFromAnotherUser = async (uid: string): Promise<Bookmark[]> =>
         bookmarkModel.find({author:uid}).populate("author").exec()
-
-
-
-
 
 }
 
-
-
-
-
-
-//
-// import Bookmark from "../models/Bookmark";
-// import BookmarkModel from "../mongoose/BookmarkModel";
-//
-//
-//
-// export default class BookmarkDao {
-//
-//     public async createABookmark(bookmark:Bookmark): Promise<Bookmark> {
-//
-//         const bookmarkModel = await BookmarkModel.create(bookmark)
-//
-//         const tid = bookmarkModel.tuit?.toHexString()??''
-//         const uid = bookmarkModel.author?.toString()??''
-//         //toHexString()
-//         return new Bookmark(tid, uid)
-//
-//     }
-//
-//    public async deleteABookmark(bid: string): Promise<any> {
-//         return await BookmarkModel.deleteOne({id: bid});
-//     }
-//
-//    public async findABookmark(bid: string): Promise<any> {
-//
-//         // if they are null
-//        // promise should be a Bookmark
-//
-//       const bookmarkModel = await BookmarkModel.findById(bid)
-//
-//        const tid = bookmarkModel?.tuit?.toHexString() ?? ''
-//        const uid = bookmarkModel?.author?.toString() ?? ''
-//
-//        return new Bookmark(tid, uid)
-//
-//        }
-//
-//    public async findAllBookmarks(): Promise<Bookmark[]> {
-//
-//         const allBookmarks = await BookmarkModel.find();
-//
-//         console.log(allBookmarks)
-//
-//         const bookmarkModel: Bookmark[] = allBookmarks.map((allBookmarks) => {
-//             console.log(BookmarkModel, "model")
-//             return new Bookmark(
-//                 allBookmarks.tuit?.toHexString()?? '',
-//                 allBookmarks.author?.toHexString()?? '')
-//         });
-//
-//
-//        return bookmarkModel;
-//     }
-//
-//    public async findAllBookmarksByAUser(uid: string): Promise<Bookmark[]> {
-//
-//         const bookmarkByUser = await BookmarkModel.find({author:uid})
-//
-//         const bookmarks: Bookmark[] = bookmarkByUser.map((bookmarkByUser) => {
-//             return new Bookmark(
-//                 bookmarkByUser.tuit?.toHexString() ?? '',
-//                 bookmarkByUser.author?.toHexString() ?? '')
-//         })
-//         return bookmarks
-//     }
-//
-//
-//
-//
-// }

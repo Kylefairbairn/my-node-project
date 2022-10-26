@@ -1,5 +1,5 @@
 /**
- * @file Implements DAO managing data storage of users. Uses mongoose UserModel
+ * @file Implements DAO managing data storage of message. Uses mongoose MessageModel
  * to integrate with MongoDB
  */
 
@@ -9,8 +9,8 @@ import Message from "../models/Message";
 
 /**
  * @class MessagesDao Implements Data Access Object managing data storage
- * of Users
- * @property {MessagesDao} messageDao Private single instance of UserDao
+ * of messages
+ * @property {MessagesDao} messageDao Private single instance of MessageDao
  */
 export default class MessagesDao implements MessageDaoI {
     private static messageDao: MessagesDao | null = null;
@@ -37,7 +37,7 @@ export default class MessagesDao implements MessageDaoI {
      * @param {string} rid
      * @returns Promise To be notified when message is inserted into the database
      */
-    sendAMessage = async (sid: string, rid: string, message: Message): Promise<any> =>
+    sendAMessage = async (sid: string, rid: string, message: Message): Promise<Message> =>
        MessageModel.create({userSending: sid, userReceiving: rid, message: message.message})
 
     /**
@@ -53,15 +53,15 @@ export default class MessagesDao implements MessageDaoI {
      * @param {string} uid Primary key of user
      * @returns Promise To be notified when all messages received from the database
      */
-    findAllMessagesReceived =  async (uid: string): Promise<any> =>
+    findAllMessagesReceived =  async (uid: string): Promise<Message[]> =>
         MessageModel.find({userReceiving: uid}, {_id:0, userSending: 0, userReceiving: 0})
 
     /**
      * Uses MessageDao to retrieve message resources from the database
      * @param {string} uid Primary key of a user
-     * @returns Promise To be notified when all messages recieved from the database
+     * @returns Promise To be notified when all messages received from the database
      */
-    findAllMessagesSent =  async (uid: string): Promise<any> =>
+    findAllMessagesSent =  async (uid: string): Promise<Message[]> =>
         MessageModel.find({userSending: uid}, {_id:0, userReceiving: 0, userSending: 0})
 
 }

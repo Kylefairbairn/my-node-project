@@ -8,7 +8,7 @@ import Follows from "../models/Follows";
 import FollowDao from "../daos/FollowDao";
 
 /**
- * @class FollowController Implements RESTful Web service API for likes resource.
+ * @class FollowController Implements RESTful Web service API for follows resource.
  * Defines the following HTTP endpoints:
  * <ul>
  *     <li>POST /api/users/:uid/follows/:suid to record that a user has followed a user
@@ -46,8 +46,8 @@ export default class FollowController implements FollowControllerI {
             app.delete("/api/unfollows/:fid", FollowController.followController.unfollow)
             app.get("/api/users/:uid/following/list", FollowController.followController.findWhoIAmFollowing)
             app.get("/api/users/:uid/followers/list", FollowController.followController.findMyFollowers)
-            app.get("/api/users/:uid/views/:uid/followers", FollowController.followController.viewAnotherUsersFollowings)
-            app.get("/api/users/:uid/views/:uid/following", FollowController.followController.viewAnotherUsersFollowers)
+            app.get("/api/users/:uid/views/followers", FollowController.followController.viewAnotherUsersFollowings)
+            app.get("/api/users/:uid/views/following", FollowController.followController.viewAnotherUsersFollowers)
         }
         return FollowController.followController;
     }
@@ -56,11 +56,12 @@ export default class FollowController implements FollowControllerI {
     }
 
     /**
-     * Retrieves all users that are following another user from the database
+     * creates a new instanace of a follow object
      * @param {Request} req Represents request from client, including the path
-     * parameter uid representing the user following another user suid
+     * parameter uid representing the user following a secondary user suid
      * @param {Response} res Represents response to client, including the
-     * body formatted as JSON arrays containing the user objects
+     * both users FK as JSON containing the new follow that was inserted in the
+     * database
      */
     createFollowing = (req: Request, res: Response) =>
         FollowController.followDao.createFollowing(req.params.uid, req.params.suid)
@@ -68,7 +69,7 @@ export default class FollowController implements FollowControllerI {
 
 
     /**
-     * Deletes the mapping association between two users
+     * Deletes the mapping between two users
      * @param {Request} req Represents request from client, including the
      * path parameters fid representing the follow object between two users
      * @param {Response} res Represents response to client, including the status

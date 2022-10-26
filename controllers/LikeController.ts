@@ -6,7 +6,7 @@ import LikeDao from "../daos/LikeDao";
 import LikeControllerI from "../interfaces/LikeControllerI";
 
 /**
- * @class TuitController Implements RESTful Web service API for likes resource.
+ * @class LikeController Implements RESTful Web service API for likes resource.
  * Defines the following HTTP endpoints:
  * <ul>
  *     <li>GET /api/users/:uid/likes to retrieve all the tuits liked by a user
@@ -16,7 +16,7 @@ import LikeControllerI from "../interfaces/LikeControllerI";
  *     <li>POST /api/users/:uid/likes/:tid to record that a user likes a tuit
  *     </li>
  *     <li>DELETE /api/users/:uid/unlikes/:tid to record that a user
- *     no londer likes a tuit</li>
+ *     no longer likes a tuit</li>
  * </ul>
  * @property {LikeDao} likeDao Singleton DAO implementing likes CRUD operations
  * @property {LikeController} LikeController Singleton controller implementing
@@ -29,7 +29,7 @@ export default class LikeController implements LikeControllerI {
      * Creates singleton controller instance
      * @param {Express} app Express instance to declare the RESTful Web service
      * API
-     * @return TuitController
+     * @return LikeController
      */
     public static getInstance = (app: Express): LikeController => {
         if(LikeController.likeController === null) {
@@ -58,7 +58,7 @@ export default class LikeController implements LikeControllerI {
     /**
      * Retrieves all tuits liked by a user from the database
      * @param {Request} req Represents request from client, including the path
-     * parameter uid representing the user liked the tuits
+     * parameter uid representing the user that liked the tuits
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the tuit objects that were liked
      */
@@ -67,6 +67,7 @@ export default class LikeController implements LikeControllerI {
             .then(likes => res.json(likes));
 
     /**
+     * To create a like instance in the database
      * @param {Request} req Represents request from client, including the
      * path parameters uid and tid representing the user that is liking the tuit
      * and the tuit being liked
@@ -79,6 +80,7 @@ export default class LikeController implements LikeControllerI {
             .then(likes => res.json(likes));
 
     /**
+     * To delete a like from a user
      * @param {Request} req Represents request from client, including the
      * path parameters uid and tid representing the user that is unliking
      * the tuit and the tuit being unliked

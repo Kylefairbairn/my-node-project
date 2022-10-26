@@ -5,10 +5,10 @@ import Message from "../models/Message";
  */
 
 export default interface MessageDaoI{
-    // do i need two users here??
-    sendAMessage(sid: string, rid: string, message: Message): Promise<any>
-    findAllMessagesSent(uid:string): Promise<any>
-    findAllMessagesReceived(uid: string): Promise<any>
+
+    sendAMessage(sid: string, rid: string, message: Message): Promise<Message>
+    findAllMessagesSent(uid:string): Promise<Message[]>
+    findAllMessagesReceived(uid: string): Promise<Message[]>
     deleteAMessage(mid: string): Promise<any>
 
 }

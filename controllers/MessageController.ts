@@ -1,5 +1,5 @@
 /**
- * @file Controller RESTful Web service API for likes resource
+ * @file Controller RESTful Web service API for message resource
  */
 import {Express, Request, Response} from "express";
 import MessageControllerI from "../interfaces/MessageControllerI";
@@ -7,7 +7,7 @@ import MessagesDao from "../daos/MessagesDao";
 import Message from "../models/Message";
 
 /**
- * @class MessageController Implements RESTful Web service API for likes resource.
+ * @class MessageController Implements RESTful Web service API for message resource.
  * Defines the following HTTP endpoints:
  * <ul>
  *     <li>POST /api/users/:uid/likes to record a new message between two users
@@ -16,7 +16,7 @@ import Message from "../models/Message";
  *     </li>
  *     <li>DELETE /api/messages/:mid to record that user deletes message between another
  *     </li>
- *     <li>GET  //api/user/:uid/messages/received To retrieve all messages recieved
+ *     <li>GET  //api/user/:uid/messages/received To retrieve all messages received
  *     </li>
  * </ul>
  * @property {MessagesDao} messageDao Singleton DAO implementing likes CRUD operations
@@ -50,7 +50,7 @@ export default class MessageController implements MessageControllerI {
 
 
     /**
-     * Retrieves information from two users to create a message
+     * Retrieves information from two users to create a new message instance
      * @param {Request} req Represents request from client, including the path
      * parameter sid the sender, rid the receiver representing two users
      * @param {Response} res Represents response to client, including the
@@ -69,7 +69,7 @@ export default class MessageController implements MessageControllerI {
      */
     findAllMessagesSent = (req: Request, res: Response) =>
         MessageController.messageDao.findAllMessagesSent(req.params.uid)
-            .then((message: Message) => res.json(message))
+            .then(message => res.json(message))
 
     /**
      * Retrieves all messages from two users from the database
@@ -80,7 +80,7 @@ export default class MessageController implements MessageControllerI {
      */
     findAllMessagesReceived = (req: Request, res: Response) =>
         MessageController.messageDao.findAllMessagesReceived(req.params.uid)
-            .then((message: Message) => res.json(message))
+            .then(message => res.json(message))
 
     /**
      * Retrieves message from database

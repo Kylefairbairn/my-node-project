@@ -13,10 +13,3 @@ export default interface TuitDaoI {
     deleteTuit (tid: string): Promise<any>;
 };
 
-
-// findAllTuits(): Promise<Tuit[]>;
-// findTuitsByAuthor(uid: string): Promise<Tuit[]>;
-// findTuitById(tid: string): Promise<Tuit>;
-// createTuit(tuit: Tuit): Promise<Tuit>;
-// updateTuit(tid: string, tuit: Tuit): Promise<any>;
-// deleteTuit(tid: string): Promise<any>;

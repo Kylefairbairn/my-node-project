@@ -1,8 +1,4 @@
 
-
-
-
-
 /**
  * @file Implements an Express Node HTTP server.
  */
@@ -30,25 +26,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// app
 
-//kyleCS5500:<password>@cluster0.0lvcoyg.mongodb.net/?
-// mongodb+srv://kyleCS5500:<password>@cluster0.0lvcoyg.mongodb.net/?
+ const URL = "mongodb+srv://kyle:isawesome@cluster0.0lvcoyg.mongodb.net/test"
 
-
-// compass
-
-//mongodb+srv://kyleCS5500:<password>@cluster0.0lvcoyg.mongodb.net/test
-
-
-let pw = "northeastern12345";
-
-
-//mongoose.connect("mongodb+srv://kyleCS5500:pw@cluster0.0lvcoyg.mongodb.net/tuiter")
-
+mongoose.connect(URL)
 
 // a2 database = tuiter2
-mongoose.connect('mongodb://localhost:27017/tuiterA2');
+//mongoose.connect('mongodb://localhost:27017/tuiterA2');
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!!!!'));
@@ -57,18 +41,12 @@ app.get('/hello', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!'));
 
 
-
 const likesController = LikeController.getInstance(app);
 const userController = UserController.getInstance(app);
 const tuitController = TuitController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app)
 const messageController = MessageController.getInstance(app)
 const followController = FollowController.getInstance(app)
-
-
-
-
-
 
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);
