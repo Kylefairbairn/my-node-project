@@ -1,5 +1,7 @@
+/**
+ * @file FollowSchema provides schema for database
+ */
 import mongoose from "mongoose";
-import User from "../models/User";
 import Follows from "../models/Follows";
 
 const FollowSchema = new mongoose.Schema<Follows>({

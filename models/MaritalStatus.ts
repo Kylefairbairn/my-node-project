@@ -1,3 +1,7 @@
+/**
+ * @file Implements enum for user
+ */
+
 enum MaritalStatus {
     Married = 'MARRIED',
     Single = 'SINGLE',

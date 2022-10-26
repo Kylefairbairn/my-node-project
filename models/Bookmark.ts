@@ -1,3 +1,7 @@
+/**
+ * @file Implements bookmark
+ */
+
 import Tuit from "./Tuit";
 import User from "./User";
 

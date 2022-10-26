@@ -1,5 +1,8 @@
+/**
+ * @file MessageSchema provides schema for database
+ */
+
 import mongoose from "mongoose";
-import User from "../models/User";
 import Message from "../models/Message";
 
 const MessageSchema = new mongoose.Schema<Message>({

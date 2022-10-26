@@ -1,3 +1,7 @@
+/**
+ * @file TuitSchema provides schema for database
+ */
+
 import mongoose, {Schema} from "mongoose";
 import Tuit from "../models/Tuit";
 

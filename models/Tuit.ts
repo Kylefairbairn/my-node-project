@@ -1,6 +1,9 @@
+/**
+ * @file Implements tuits
+ */
+
 import User from "./User";
 import {Stats} from "fs";
-
 
 export default interface Tuit {
    tuit: string,

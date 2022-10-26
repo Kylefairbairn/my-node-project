@@ -1,3 +1,6 @@
+/**
+ * @file Implements user
+ */
 import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";

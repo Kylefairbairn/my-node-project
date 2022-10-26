@@ -1,3 +1,7 @@
+/**
+ * @file Implements message
+ */
+
 import User from "./User";
 
 export default interface Message{

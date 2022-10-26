@@ -1,3 +1,7 @@
+/**
+ * @file Implements likes
+ */
+
 import Tuit from "./Tuit";
 import User from "./User";
 

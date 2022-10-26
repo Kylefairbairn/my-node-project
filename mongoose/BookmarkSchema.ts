@@ -1,6 +1,8 @@
+/**
+ * @file Implements mongoose model to CRUD
+ * documents in the bookmark collection
+ */
 import mongoose from "mongoose";
-import User from "../models/User";
-import Tuit from "../models/Tuit";
 import Bookmark from "../models/Bookmark";
 
 const BookmarkSchema = new mongoose.Schema<Bookmark>({

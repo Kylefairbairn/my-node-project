@@ -1,3 +1,7 @@
+/**
+ * @file UserSchema provides schema for database
+ */
+
 import mongoose from "mongoose";
 import User from "../models/User";
 
