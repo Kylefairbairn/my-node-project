@@ -67,8 +67,6 @@ export default class LikeController implements LikeControllerI {
      * body formatted as JSON arrays containing the tuit objects that were liked
      */
     findAllTuitsLikedByUser = (req: Request, res: Response) => {
-        // LikeController.likeDao.findAllTuitsLikedByUser(req.params.uid)
-        //     .then(likes => res.json(likes));
 
         const uid = req.params.uid;
         // @ts-ignore
@@ -97,8 +95,6 @@ export default class LikeController implements LikeControllerI {
      * database
      */
     userLikesTuit = async (req: Request, res: Response) => {
-        // LikeController.likeDao.userLikesTuit(req.params.uid, req.params.tid)
-        //     .then(likes => res.json(likes));
 
         const uid = req.params.uid;
         const tid = req.params.tid;
