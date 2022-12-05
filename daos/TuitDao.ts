@@ -33,25 +33,23 @@ export default class TuitDao implements TuitDaoI{
      * @returns Promise To be notified when all tuits are retrieved from the
      * database
      */
-    findAllTuits = async (): Promise<Tuit[]> =>
-        TuitModel.find()
-            .populate("postedBy")
-            .exec();
+    findAllTuits = async (): Promise<any> =>
+        TuitModel.find().populate("postedBy").exec();
 
     /**
      * Uses TuitModel to retrieve all tuits by a user
      * @param {string} uid User's primary key
      * @returns Promise To be notified when a collection of tutis by a user are returned
      */
-    findAllTuitsByUser = async (uid: string): Promise<Tuit[]> =>
+    findAllTuitsByUser = async (uid: string): Promise<any> =>
         TuitModel.find({postedBy: uid})
             .populate("postedBy")
             .exec();
 
     /**
      * Uses TuitModel to retrieve a tuit by an id
-     * @param {string} tid Tuit primary key
      * @returns Promise To be notified when a tuit is retrieved from the database
+     * @param uid
      */
     findTuitById = async (uid: string): Promise<any> =>
         TuitModel.findById(uid)
@@ -64,7 +62,7 @@ export default class TuitDao implements TuitDaoI{
      * @param {Tuit} tuit
      * @returns Promise To be notified when user is inserted into the database
      */
-    createTuitByUser = async (uid: string, tuit: Tuit): Promise<Tuit> =>
+    createTuitByUser = async (uid: string, tuit: Tuit): Promise<any> =>
         TuitModel.create({...tuit, postedBy: uid});
 
     /**
@@ -79,9 +77,15 @@ export default class TuitDao implements TuitDaoI{
             {$set: tuit});
     /**
      * Removes tuit from the database.
-     * @param {string} tid Primary key of tid to be removed
      * @returns Promise To be notified when tuit is removed from the database
+     * @param uid
      */
     deleteTuit = async (uid: string): Promise<any> =>
         TuitModel.deleteOne({_id: uid});
+
+    updateLikes =
+        async (tid: string, newStats: {}) =>
+            TuitModel.updateOne(
+                {_id: tid},
+                {$set: {stats: newStats}});
 }
