@@ -6,6 +6,7 @@
 
 import DislikeDaoI from "../interfaces/DislikeDaoI";
 import DislikeModel from "../mongoose/DislikeModel";
+import Dislike from "../models/Dislike";
 
 /**
  * @class DislikeDao Implements Data Access Object managing data storage
@@ -44,9 +45,9 @@ export default class DislikeDao implements DislikeDaoI {
      * @returns Promise To be notified when the tuits are retrieved from the
      * database
      */
-    findAllTuitsDislikedByUser = async (uid: string): Promise<any> =>
+    findAllTuitsDislikedByUser = async (uid: string): Promise<Dislike[]> =>
         DislikeModel.find({dislikedBy: uid})
-            .populate("tuit")
+            .populate({path:"tuit",populate: {path: 'postedBy'}})
             .exec()
 
     /**
