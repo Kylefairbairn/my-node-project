@@ -20,21 +20,26 @@ import DislikeController from "./controllers/DislikeController";
 const cors = require('cors')
 const app = express();
 const session = require('express-session');
+require('dotenv').config()
 
-let sess = {
- secret: "process.env.SECRET",
- cookie: {
-    secure: false
- }
-}
+const SECRET = "12345"
 
-// need to make a SECRET ENV
 // let sess = {
-//     secret: process.env.SECRET,
-//     cookie: {
-//         secure: false
-//     }
+//  secret: "process.env.SECRET",
+//  cookie: {
+//     secure: false
+//  }
 // }
+
+//need to make a SECRET ENV
+let sess = {
+    secret: process.env.SECRET,
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        secure: false
+    }
+}
 
 if(process.env.ENV === 'PRODUCTION'){
     app.set('trust proxy', 1)

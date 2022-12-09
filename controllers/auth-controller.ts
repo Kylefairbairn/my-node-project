@@ -33,11 +33,11 @@ const AuthenticationController = (app: Express) => {
 
 
     /**
-     * signs up a user on the client side if they dont have a profile
+     * signs up a user on the client side if they don't have a profile
      * @param {Request} req Represents request from client, including the path
      * parameter body representing the users information
      * @param {Response} res Represents response to client, including the
-     * body formatted as JSON arrays containing the tuit objects that were disliked
+     * body formatted as JSON arrays containing a new user object
      */
     const signup = async (req: Request, res: Response) => {
         const newUser = req.body;
@@ -61,6 +61,13 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * Shows the client their profile using session management after logging in
+     * @param {Request} req Represents request from client, including the path
+     * parameter body representing the users information
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON array to include their profile
+     */
     const profile = (req:Request, res:Response) => {
         // @ts-ignore
         const profile = req.session['profile'];
@@ -72,35 +79,55 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * Logs out a user on the client side if they don't have a profile
+     * @param {Request} req Represents request from client, including the path
+     * parameter body representing the users information
+     * @param {Response} res Represents response to client, logs out user
+     */
     const logout = (req:Request, res:Response) => {
         // @ts-ignore
         req.session.destroy();
         res.sendStatus(200);
     }
+
+    /**
+     * Allows a user on the client side to log in into their account
+     * @param {Request} req Represents request from client, including the path
+     * parameter body representing the users information
+     * @param {Response} res Represents response to client, allows them to login in
+     * to their account
+     */
     const login = async (req:Request, res:Response) => {
         const user = req.body;
         const username = user.username;
         const password = user.password;
-        console.log(username,password)
         const existingUser = await userDao
             .findUserByUsername(username);
-        console.log(existingUser)
+
         if (!existingUser) {
+            console.log(existingUser)
             res.sendStatus(403);
             return;
         }
 
-        const match = password === existingUser.password
+        // https://stackoverflow.com/questions/64044667/nodes-bcrypt-compare-returns-false-though-its-true
+        // found this, and sometimes it takes a button press twice but seems to work
+        const salt = await bcrypt.genSalt(15)
+        const newHashedPassword = await bcrypt.hash(password, salt)
 
-           // const match = await bcrypt
-           //  .compare(password, existingUser.password);
+        const match = await bcrypt.compare(password, newHashedPassword)
 
         if (match) {
             existingUser.password = '*****';
             // @ts-ignore
             req.session['profile'] = existingUser;
             res.json(existingUser);
-        } else {
+        }
+
+
+         else {
+            console.log("accessing the else ")
             res.sendStatus(403);
         }
     };
